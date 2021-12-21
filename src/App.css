@@ -1,38 +1,146 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.bottomBar{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 10%;
+  background-color: rgb(34, 34, 34);
+  box-shadow: 0px 0px 13px 1px rgba(0,0,0,0.10);
   display: flex;
-  flex-direction: column;
+  flex: 1;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.clickyImage{
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.clickyImage:hover{
+  height: 85%;
+  width: 85%;
+}
+
+.ripple-button {
+  border-radius: 50%;
+  border: none;
+  margin: 0 1% 0 1%;
+  background: #1976d200;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  position: relative;
+  height: 5ch;
+  width: 5ch;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3%;
+}
+
+.ripple-button > .ripple {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  background: #dfdfdf;
+  display: block;
+  content: "";
+  border-radius: 50%;
+  opacity: 1;
+  animation: 1.5s ease 1 forwards ripple-effect;
+}
+
+@keyframes ripple-effect {
+  0% {
+    transform: scale(1);
+    opacity: 1;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: scale(10);
+    opacity: 0.375;
   }
+  100% {
+    transform: scale(35);
+    opacity: 0;
+  }
+}
+
+.ripple-button > .content {
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.chatBox{
+
+  position: absolute;
+  width: 30%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-color: white;
+
+}
+
+.main{
+  height: 100%;
+  width: 100%;
+}
+
+.messageField{
+
+  position: absolute;
+  bottom: 2%;
+  width: 90%;
+  left: 5%;
+  height: 5%;
+  border-radius: 100px;
+  padding: 0 5% 0 5%;
+  box-sizing: border-box;
+
+}
+
+.messageBox{
+
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  top: 10%;
+  padding-left: 5%;
+  padding-right: 5%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  line-height: 120%;
+  line-break: auto;
+
+}
+
+
+.messageText{
+  font-family: 'Roboto', sans-serif;
+}
+
+.messageFrom{
+  font-family: 'Thic-Roboto', sans-serif;
+}
+
+@font-face {
+  font-family: "Thic-Roboto";
+  src: url("../public/Roboto/Roboto-Medium.ttf");
 }
