@@ -1,10 +1,13 @@
 import RippleButton from './rippleButton';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { socket, SocketContext } from './webSocket';
 
 export default function BottomBar(props){
 
-    const [microphone, setMicrophone] = useState(false);
-    const [camera, setCamera] = useState(false);
+    const context = useContext(SocketContext);
+
+    const [microphone, setMicrophone] = context.voice;
+    const [camera, setCamera] = context.camera;
     const [chat, setChat] = props.chat;
 
     return(

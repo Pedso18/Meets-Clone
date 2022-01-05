@@ -98,8 +98,13 @@
 }
 
 .main{
+
   height: 100%;
   width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 3%;
+
 }
 
 .messageField{
@@ -128,6 +133,20 @@
   overflow-x: hidden;
   line-height: 120%;
   line-break: auto;
+
+}
+
+.video{
+  
+  background-color: rgb(39, 39, 39);
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+  -moz-transform:rotateY(180deg); /* Firefox */
+  border-radius: 3px;
+  width: 30vw;
+  height: 16.8vw;
+  display: flex;
+  justify-content: center;
 
 }
 

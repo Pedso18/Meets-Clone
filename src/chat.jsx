@@ -22,9 +22,9 @@ export default function Chat(props){
 
                     return(
                         
-                        <React.Fragment>
-                            <span key={index} className="messageFrom">{message.from + ":"}<br /></span>
-                            <span key={90071992547409 - index} className="messageText">{message.text}<br/></span>
+                        <React.Fragment key={index}>
+                            <span className="messageFrom">{message.from + ":"}<br /></span>
+                            <span className="messageText">{message.text}<br/></span>
                             <br />
                         </React.Fragment>
 

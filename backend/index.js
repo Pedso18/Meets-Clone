@@ -23,15 +23,62 @@ var server = app.listen(port, function () {
 
 const io = require('socket.io')(server);
 
+var amount = 0;
+var socketIds = [];
+
 io.on('connection', (socket) => {
 
     const socketId = socket.id;
 
+    for(let i = 0; i < socketIds.length; i++){
+        socket.emit("id", socketIds[i]);
+    }
+    
+    socketIds.push(socketId);
+
+    amount++;
+    console.log(amount);
+
     console.log(socket.id, 'connected!');
+
+    io.sockets.emit("users", amount);
+    
+    socket.broadcast.emit("id", socketId);
+
 
     socket.on("message", e => {
 
         io.sockets.emit("message", {from: socketId, text: e});
+
+    });
+    
+    socket.on("video", e => {
+
+        console.log("I'm receiving a video from: ", socketId);
+        socket.broadcast.emit('video', {video: e, from: socketId});
+
+    });
+    
+    socket.on("videoDeath", e => {
+
+        socket.broadcast.emit('videoDeath', socketId);
+
+    });
+
+    socket.on('disconnect', function(){
+        amount--;
+
+        socket.broadcast.emit("users", amount);
+        socket.broadcast.emit("idDeath", socketId);
+
+        for(let i = 0; i < socketIds.length; i++){
+
+            if(socketIds[i] == socketId){
+                socketIds.splice(i, 1);
+                break;
+            }
+
+        }
 
     });
 
