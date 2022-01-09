@@ -57,6 +57,18 @@ function App() {
       let element = document.querySelector(`#a${e}`);
       element.src = null;
     });
+    
+    socket.on("videoTest", e => {
+
+      let element = document.querySelector(`#a${e.from}`);
+
+      if(element){
+
+        element.src = e.video;
+          
+      }
+      
+    });
 
     socket.on("video", e =>{
 
@@ -83,7 +95,7 @@ function App() {
         
           <div className='video' key={i}>
             
-            <img width={"auto"} height={"100%"} id={`a${e}`}></img>
+            <video width={"auto"} height={"100%"} id={`a${e}`} autoPlay></video>
 
           </div>
         

@@ -58,6 +58,12 @@ io.on('connection', (socket) => {
 
     });
     
+    socket.on("videoTest", e => {
+
+        socket.broadcast.emit("videoTest", {video: e, from: socketId});
+
+    });
+    
     socket.on("video", e => {
 
         console.log("I'm receiving a video from: ", socketId);

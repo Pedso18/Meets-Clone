@@ -22,48 +22,15 @@ export default function OwnVideo(props){
 
             if(camera === true){
                 
-                if (navigator.mediaDevices.getUserMedia) {
-                    navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                    });
-                }
+                startVideo();
                 
             }else if(video.srcObject != undefined){
-                stop(video);
                 
+                stop();
                 
             }
         }
 
-
-        if(camera){
-
-            if(interval === null){
-    
-                let int = window.setInterval(() => {
-                                        
-                    if(camera){
-                        
-                        context.socket.emit("video", captureFrame(video));
-    
-                    }
-                
-                }, 100);
-            
-                setInterval(int);
-        
-            }
-    
-        }else if(interval){
-    
-            clearInterval(interval);
-            setInterval(null);
-    
-        }
             
     });
     
@@ -78,7 +45,7 @@ export default function OwnVideo(props){
 
     )
 
-    function stop(video) {
+    function stop() {
 
         context.socket.emit("videoDeath");
 
@@ -101,5 +68,59 @@ export default function OwnVideo(props){
         canvasContext.drawImage(video, 0, 0);
         return canvas.toDataURL('image/webp', 0.0000000000000000000000000000001);
     }
+    
+    function startVideo(){
 
+        let mediaRecorderInterval = 50;
+        let mediaRecorderDeathInterval = 400;
+    
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+
+            video.srcObject = stream;
+            
+            const mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start(mediaRecorderInterval);
+            var chunks = [];
+            
+            setTimeout(() => {
+                mediaRecorder.stop();
+            }, mediaRecorderDeathInterval);
+            
+            mediaRecorder.addEventListener("stop", () => {
+    
+                console.log(chunks.length);
+                const videoBlob = new Blob(chunks);
+                const videoUrl = URL.createObjectURL(videoBlob);
+                
+                context.socket.emit("videoTest", videoUrl);
+                chunks = [];
+                
+                if(camera && video.srcObject != undefined){
+                    
+                    mediaRecorder.start(mediaRecorderInterval);
+                    
+                    setTimeout(() => {
+                        if(camera && video.srcObject != undefined){
+                            
+                            mediaRecorder.stop();
+
+                        }
+                    }, mediaRecorderDeathInterval);        
+                    
+                }
+                
+            });
+            
+            mediaRecorder.addEventListener("dataavailable", e => {
+                console.log("pushing!");
+                chunks.push(e.data);
+            });
+                
+        });
+        
+    }
+    
 }
+
+
+
