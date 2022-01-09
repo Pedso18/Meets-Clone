@@ -51,6 +51,12 @@ io.on('connection', (socket) => {
         io.sockets.emit("message", {from: socketId, text: e});
 
     });
+
+    socket.on("audio", e => {
+
+        socket.broadcast.emit("audio", e);
+
+    });
     
     socket.on("video", e => {
 

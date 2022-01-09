@@ -44,6 +44,14 @@ function App() {
       setOtherUsers(e - 1);
 
     });
+
+    socket.on("audio", e => {
+
+      console.log(e);
+      let audio = new Audio(e);
+      audio.play();
+
+    });
     
     socket.on("videoDeath", e => {
       let element = document.querySelector(`#a${e}`);
